@@ -1,0 +1,18 @@
+{
+  "name": "typed-css",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^7.0.8",
+    "tslib": "^1.6.0",
+    "ava": "^0.18.2"
+  }
+}
