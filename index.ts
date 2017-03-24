@@ -1,3 +1,38 @@
+import * as webpack from 'webpack';
+import * as path from 'path';
+
+import { readFile, writeFile } from './utils';
+
+export function PluginCtor() {
+    this.startTime = Date.now();
+    this.prevTimeStamps = {};
+
+
+    this.apply = (compiler: webpack.Compiler) => {
+        compiler.plugin('emit', async (compilation: any, callback: () => {}) => {
+            const changedFiles: string[] = Object.keys(compilation.fileTimestamps).filter((watchfile: any) => {
+                return (this.prevTimestamps[watchfile] || this.startTime) < (compilation.fileTimestamps[watchfile] || Infinity);
+            });
+
+            const changedStyles = changedFiles.filter(file => /\.less|css$/.test(file));
+
+            Promise.all(changedStyles.map((style) => {
+                const dirname = path.dirname(style);
+                const basename = path.basename(style);
+
+                return readFile(style).then(content => {
+                    const newPath = path.join(dirname, basename + '.d.ts');
+                    const output = emit(scanner(content));
+                    return writeFile(newPath, output)
+                }).catch(err => console.error('typed css: ', err));
+            })).then(() => {
+                this.prevTimestamps = compilation.fileTimestamps;
+                callback();
+            });
+        })
+    }
+}
+
 const LOCAL = 'local';
 
 export default function scanner(input: string) {
@@ -35,7 +70,7 @@ export default function scanner(input: string) {
                 // skip space
                 do {
                     pos++;
-                }while(input[pos] === ' ');
+                } while (input[pos] === ' ');
                 // while (input[++pos] === ' ') { }
                 if (input.substr(pos, LOCAL.length) === LOCAL) {
                     let leftParenthesisPos = pos + LOCAL.length;
@@ -73,6 +108,6 @@ function skipString(quote: string, input: string, pos: number): number {
 
 export function emit(selectors: string[]) {
     const normalized = selectors.map(str => str.substr(1));
-    return normalized.filter(selector => /[_a-zA-Z]+[_a-zA-Z0-9]*/.test(selector.substr(1)))
+    return normalized.filter(className => /[_a-zA-Z]+[_a-zA-Z0-9]*/.test(className))
         .map(selector => `export var ${selector}: string;`).join('\n');
 }
