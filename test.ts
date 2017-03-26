@@ -1,5 +1,5 @@
 import { test } from 'ava';
-import scanner, { emit } from '.';
+import { scanner, emit } from './utils';
 
 test('should return an empty array when there is no local selector', t => {
     const input = '.red{ color: red; }';

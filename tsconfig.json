@@ -8,15 +8,15 @@
         "noImplicitReturns": true,
         "pretty": true,
         "strictNullChecks": false,
+        "declaration": true,
         "lib": [
-            "dom",
             "es7",
             "es6"
-        ]
+        ],
+        "outDir": "lib"
     },
     "exclude": [
         "node_modules",
-        "typings/main",
-        "typings/main.d.ts"
+        "lib"
     ]
 }
