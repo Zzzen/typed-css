@@ -23,3 +23,8 @@ export function writeFile(path: string, data: string) {
         });
     });
 }
+
+export function getFilenameWithoutExtension(filename: string) {
+    const end = filename.lastIndexOf('.');
+    return filename.substring(0, end);
+}

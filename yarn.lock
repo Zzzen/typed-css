@@ -52,9 +52,9 @@
   dependencies:
     "@types/source-map" "*"
 
-"@types/webpack@^2.2.11":
-  version "2.2.11"
-  resolved "http://r.cnpmjs.org/@types/webpack/download/@types/webpack-2.2.11.tgz#d218555ca9a5e24627036aaf619e5c4402ab5a74"
+"@types/webpack@^2.2.12":
+  version "2.2.12"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-2.2.12.tgz#5e2ab82b5b43cfadcb308d3210c082cf67fd9893"
   dependencies:
     "@types/node" "*"
     "@types/tapable" "*"
